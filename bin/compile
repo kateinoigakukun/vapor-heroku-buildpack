@@ -32,6 +32,7 @@ else
 fi
 
 if [ -f $BUILD_DIR/Package.resolved ]; then
+  puts-step "Using build cache based on Package.resolved"
   SWIFT_BUILD_PATH="$CACHE_DIR/swift-build-$SWIFT_VERSION-$(md5sum $BUILD_DIR/Package.resolved | cut -c -32)/.build"
 else
   SWIFT_BUILD_PATH="$BUILD_DIR/.build"
