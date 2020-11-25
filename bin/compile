@@ -16,6 +16,7 @@ CLANG_VERSION=7.0.1
 SWIFT_VERSION="5.3"
 SWIFT_BUILD_CONFIGURATION="release"
 SWIFT_BUILD_FLAGS=""
+SWIFT_BUILD_PATH=""
 
 source "/etc/lsb-release"
 source "$BIN_DIR/utils"
@@ -28,6 +29,12 @@ elif [ -f "$ENV_DIR/SWIFT_VERSION" ]; then
   puts-step "Using Swift $SWIFT_VERSION (from SWIFT_VERSION config)"
 else
   puts-step "Using Swift $SWIFT_VERSION (default)"
+fi
+
+if [ -f $BUILD_DIR/Package.resolved ]; then
+  SWIFT_BUILD_PATH="$CACHE_DIR/swift-build-$SWIFT_VERSION-$(md5sum $BUILD_DIR/Package.resolved | cut -c -32)/.build"
+else
+  SWIFT_BUILD_PATH="$BUILD_DIR/.build"
 fi
 
 if [ -f "$ENV_DIR/SWIFT_BUILD_CONFIGURATION" ]; then
